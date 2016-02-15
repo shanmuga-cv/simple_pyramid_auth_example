@@ -1,0 +1,8 @@
+{% extends "base.jinja2" %}
+{% block title %} simple pyramid app : All students {% endblock %}
+{% block body %}
+<table border=1>
+  <tr> <th> Name </th> <td> {{ student.name }} </td> </tr>
+  <tr> <th> Gender </th> <td> {{ student.gender }} </td> </tr>
+</table>
+{% endblock %}
