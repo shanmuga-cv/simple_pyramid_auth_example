@@ -18,10 +18,9 @@ DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 Base = declarative_base()
 
 
-class MyModel(Base):
-    __tablename__ = 'models'
-    id = Column(Integer, primary_key=True)
-    name = Column(Text)
-    value = Column(Integer)
-
-Index('my_index', MyModel.name, unique=True, mysql_length=255)
+class Student(Base):
+    __tablename__ = "students"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(Text(255))
+    gender = Column(Text(1))
+    password = Column(Text(255))
