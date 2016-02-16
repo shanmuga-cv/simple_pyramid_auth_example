@@ -3,7 +3,11 @@
   <title> {% block title %} {% endblock %} </title>
 </head>
 <body>
-<a href="/"> Home </a> &nbsp; <a href="/students"> All Students </a> &nbsp; <a href="/student/add"> Add Student </a>
+<div align="right">
+{% if authenticated_student_id is not none %} <a href="/logout">  logout </a> {% endif %}
+{% if authenticated_student_id is none %} <a href="/login">  login </a> {% endif %}
+</div>
+<a href="/"> Home </a> &nbsp; <a href="/students"> All Students </a> &nbsp; <a href="/student/add"> Student Signup </a>
 <hr>
 {% block body %}
 {% endblock %}
