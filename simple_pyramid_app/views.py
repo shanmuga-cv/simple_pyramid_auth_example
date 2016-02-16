@@ -18,7 +18,7 @@ def home_view(request):
     html = render("templates/home.jinja2", {'authenticated_student_id': request.authenticated_userid})
     return Response(html)
 
-@view_config(route_name="student_list")
+@view_config(route_name="student_list", permission='view')
 def students_view(request):
     students = DBSession.query(Student).all()
     html = render("templates/student_list.jinja2", {'all_students':students, 'authenticated_student_id': request.authenticated_userid})
@@ -32,13 +32,13 @@ def student_detail_view(request):
     status = 200 if student is not None else 400
     return Response(html, status=status)
 
-@view_config(route_name="add_student", request_method="GET")
+@view_config(route_name="add_student", request_method="GET", permission='signup')
 def add_student_view(request):
     html = render("templates/add_student.jinja2", {'authenticated_student_id': request.authenticated_userid})
     return Response(html)
 
 
-@view_config(route_name="add_student", request_method="POST")
+@view_config(route_name="add_student", request_method="POST", permission='signup')
 def persist_student(request):
     student_name = request.POST['student_name']
     student_gender = request.POST['student_gender']

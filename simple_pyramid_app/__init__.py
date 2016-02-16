@@ -1,11 +1,23 @@
 from pyramid.config import Configurator
 from sqlalchemy import engine_from_config
 from pyramid.authentication import AuthTktAuthenticationPolicy
+from pyramid.authorization import ACLAuthorizationPolicy
+from pyramid.security import Allow,Deny, Authenticated, Everyone
 
 from .models import (
     DBSession,
     Base,
     )
+
+class Root:
+    __acl__ = [
+        (Allow, Authenticated, 'view'),
+        (Deny, Authenticated, 'signup'),
+        (Allow, Everyone, 'signup')
+    ]
+
+    def __init__(self, request):
+        pass
 
 
 def main(global_config, **settings):
@@ -15,7 +27,9 @@ def main(global_config, **settings):
     DBSession.configure(bind=engine)
     Base.metadata.bind = engine
     authnpolicy = AuthTktAuthenticationPolicy('seekrit', hashalg='sha512')
-    config = Configurator(settings=settings, authentication_policy=authnpolicy)
+    authzpolicy = ACLAuthorizationPolicy()
+    config = Configurator(settings=settings, authentication_policy=authnpolicy, authorization_policy=authzpolicy,
+                          root_factory=Root)
     config.include('pyramid_jinja2')
     config.add_static_view('static', 'static', cache_max_age=3600)
 
