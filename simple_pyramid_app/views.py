@@ -24,7 +24,7 @@ def students_view(request):
     html = render("templates/student_list.jinja2", {'all_students':students, 'authenticated_student_id': request.authenticated_userid})
     return Response(html)
 
-@view_config(route_name='student_detail')
+@view_config(route_name='student_detail', permission='view')
 def student_detail_view(request):
     id = request.matchdict['id']
     student = DBSession.query(Student).filter(Student.id==int(id)).one_or_none()
